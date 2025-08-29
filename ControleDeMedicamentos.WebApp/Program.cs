@@ -1,6 +1,7 @@
 ﻿using ControleDeMedicamentos.Infraestrutura.Arquivos.Compartilhado;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloFornecedor;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloFuncionario;
+using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloMedicamento;
 using Serilog;
 using Serilog.Events;
 
@@ -13,6 +14,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddScoped((_) => new ContextoDados(true));
+        builder.Services.AddScoped<RepositorioMedicamentoEmArquivo>();
         builder.Services.AddScoped<RepositorioFornecedorEmArquivo>();
         builder.Services.AddScoped<RepositorioFuncionarioEmArquivo>();
 
@@ -21,7 +23,6 @@ public class Program
         var caminhoArquivoLogs = Path.Combine(caminhoAppData, "ControleDeMedicamentos", "erro.log");
 
         var licenseKey = builder.Configuration["NEWRELIC_LICENSE_KEY"];
-
         Log.Logger = new LoggerConfiguration()
             .WriteTo.Console()
             .WriteTo.File(caminhoArquivoLogs, LogEventLevel.Error)

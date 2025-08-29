@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Titulo = "Visualização de Medicamentos";
+}
+
+@model VisualizarMedicamentosViewModel;
+
+<div class="d-flex justify-content-end mb-4">
+    <a class="btn btn-primary" asp-action="Cadastrar">
+        <i class="bi bi-plus-lg me-2"></i>
+        Cadastrar Novo Medicamento
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Fornecedor</th>
+                    <th scope="col" class="text-center">Qtd. em Estoque</th>
+                    <th scope="col" class="text-end">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DetalhesMedicamentoViewModel m in Model.Registros)
+                {
+                    <tr>
+                        <td>@m.Nome</td>
+                        <td>@m.Fornecedor</td>
+                        <td class="text-center">
+                            @if (m.EmFalta)
+                            {
+                                <span class="badge bg-danger">@m.QuantidadeEmEstoque</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">@m.QuantidadeEmEstoque</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            <a class="btn btn-sm btn-outline-primary" title="Editar" asp-action="Editar" asp-route-id="@m.Id">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a class="btn btn-sm btn-outline-danger" title="Excluir" asp-action="Excluir" asp-route-id="@m.Id">
+                                <i class="bi bi-trash2"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
