@@ -9,7 +9,11 @@ namespace ControleDeMedicamentos.WebApp.Controllers;
 public class FuncionarioController : Controller
 {
     private readonly RepositorioFuncionarioEmArquivo repositorioFuncionario;
-    public FuncionarioController(RepositorioFuncionarioEmArquivo repositorioFuncionario)
+
+    // Inversão de controle
+    public FuncionarioController(
+        RepositorioFuncionarioEmArquivo repositorioFuncionario
+    )
     {
         this.repositorioFuncionario = repositorioFuncionario;
     }
