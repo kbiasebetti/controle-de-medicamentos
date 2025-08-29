@@ -9,12 +9,9 @@ namespace ControleDeMedicamentos.WebApp.Controllers;
 public class FuncionarioController : Controller
 {
     private readonly RepositorioFuncionarioEmArquivo repositorioFuncionario;
-
-    public FuncionarioController()
+    public FuncionarioController(RepositorioFuncionarioEmArquivo repositorioFuncionario)
     {
-        var contexto = new ContextoDados(carregarDados: true);
-
-        repositorioFuncionario = new RepositorioFuncionarioEmArquivo(contexto);
+        this.repositorioFuncionario = repositorioFuncionario;
     }
 
     [HttpGet]
