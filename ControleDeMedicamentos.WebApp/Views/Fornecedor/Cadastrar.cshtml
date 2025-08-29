@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Titulo = "Cadastro de Fornecedor";
+}
+
+@model CadastrarFornecedorViewModel;
+
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-6">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5 class="card-title my-1">Informações do Fornecedor</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="Cadastrar" method="post">
+                    <div class="mb-3">
+                        <label asp-for="Nome" class="form-label">Nome</label>
+                        <input class="form-control" asp-for="Nome" placeholder="Ex: Distribuidora de Medicamentos Sul">
+                        <span asp-validation-for="Nome" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Telefone" class="form-label">Telefone</label>
+                        <input class="form-control" asp-for="Telefone" placeholder="Ex: (49) 3223-0000">
+                        <span asp-validation-for="Telefone" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Cnpj" class="form-label">CNPJ</label>
+                        <input class="form-control" asp-for="Cnpj" placeholder="Ex: 00.000.000/0001-00">
+                        <span asp-validation-for="Cnpj" class="text-danger"></span>
+                    </div>
+
+                    <div class="card-footer bg-transparent text-end">
+                        <a asp-action="Index" class="btn btn-outline-secondary px-4">Voltar</a>
+                        <button type="submit" class="btn btn-primary px-4">Cadastrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

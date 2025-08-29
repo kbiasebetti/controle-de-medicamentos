@@ -1,4 +1,5 @@
 ﻿using ControleDeMedicamentos.Infraestrutura.Arquivos.Compartilhado;
+using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloFornecedor;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloFuncionario;
 using Serilog;
 using Serilog.Events;
@@ -12,7 +13,8 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddScoped((_) => new ContextoDados(true));
-        builder.Services.AddScoped<RepositorioFuncionarioEmArquivo>();          
+        builder.Services.AddScoped<RepositorioFornecedorEmArquivo>();
+        builder.Services.AddScoped<RepositorioFuncionarioEmArquivo>();
 
         var caminhoAppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
