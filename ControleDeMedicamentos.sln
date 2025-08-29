@@ -1,9 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36327.8 d17.14
+VisualStudioVersion = 17.14.36327.8
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleDeMedicamentos", "ControleDeMedicamentos\ControleDeMedicamentos.csproj", "{9CBB3710-559B-490D-880C-CBCD164B33A5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Apresentação", "1. Apresentação", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Domínio", "2. Domínio", "{034E8A9F-D443-4F26-A440-4EED1FF1C997}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Infraestrutura", "3. Infraestrutura", "{B79AD254-F3EB-4384-A7FC-5AFD6045D517}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleDeMedicamentos.Dominio", "ControleDeMedicamentos.Dominio\ControleDeMedicamentos.Dominio.csproj", "{F936862D-8451-465D-B65D-C287C77A4B9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleDeMedicamentos.Infraestrutura.Arquivos", "ControleDeMedicamentos.Infraestrutura.Arquivos\ControleDeMedicamentos.Infraestrutura.Arquivos.csproj", "{E950871E-EB94-4D67-ADA3-75C51F1092FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleDeMedicamentos.WebApp", "ControleDeMedicamentos.WebApp\ControleDeMedicamentos.WebApp.csproj", "{00EC6517-20C9-45F9-89D2-C5A258AB32F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,13 +21,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9CBB3710-559B-490D-880C-CBCD164B33A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9CBB3710-559B-490D-880C-CBCD164B33A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9CBB3710-559B-490D-880C-CBCD164B33A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9CBB3710-559B-490D-880C-CBCD164B33A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F936862D-8451-465D-B65D-C287C77A4B9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F936862D-8451-465D-B65D-C287C77A4B9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F936862D-8451-465D-B65D-C287C77A4B9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F936862D-8451-465D-B65D-C287C77A4B9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E950871E-EB94-4D67-ADA3-75C51F1092FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E950871E-EB94-4D67-ADA3-75C51F1092FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E950871E-EB94-4D67-ADA3-75C51F1092FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E950871E-EB94-4D67-ADA3-75C51F1092FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00EC6517-20C9-45F9-89D2-C5A258AB32F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00EC6517-20C9-45F9-89D2-C5A258AB32F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00EC6517-20C9-45F9-89D2-C5A258AB32F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00EC6517-20C9-45F9-89D2-C5A258AB32F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F936862D-8451-465D-B65D-C287C77A4B9B} = {034E8A9F-D443-4F26-A440-4EED1FF1C997}
+		{E950871E-EB94-4D67-ADA3-75C51F1092FC} = {B79AD254-F3EB-4384-A7FC-5AFD6045D517}
+		{00EC6517-20C9-45F9-89D2-C5A258AB32F0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {36682026-BA18-480E-8150-95128D1524F3}

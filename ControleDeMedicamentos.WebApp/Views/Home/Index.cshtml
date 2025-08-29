@@ -1,0 +1,29 @@
+@{
+    ViewBag.Titulo = "Página Inicial";
+}
+
+<div class="container mt-5">
+    <div class="row align-items-center g-5">
+        <div class="col-lg-7">
+            <h1 class="display-4 fw-bold text-primary">
+                Gestão Simplificada de Medicamentos
+            </h1>
+            <p class="lead text-muted mt-3">
+                Todas as ferramentas que você precisa para gerenciar sua clínica com eficiência. Controle estoque, pacientes, funcionários e prescrições em um só lugar.
+            </p>
+            <p class="mt-4"><strong>Clique em uma das opções para começar:</strong></p>
+            <div class="d-flex flex-wrap gap-2 mt-3">
+                <a asp-controller="Funcionario" asp-action="Index" class="btn btn-outline-primary">Funcionários</a>
+                <a asp-controller="Fornecedor" asp-action="Index" class="btn btn-outline-primary">Fornecedores</a>
+                <a asp-controller="Paciente" asp-action="Index" class="btn btn-outline-primary">Pacientes</a>
+                <a asp-controller="Medicamento" asp-action="Index" class="btn btn-outline-primary">Medicamentos</a>
+                <a asp-controller="Prescricao" asp-action="Index" class="btn btn-outline-primary">Prescrições</a>
+                <a asp-controller="Estoque" asp-action="Index" class="btn btn-outline-primary">Estoque</a>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <img src="~/images/undraw_medicine.svg" class="img-fluid" alt="Ilustração de médicos" />
+        </div>
+    </div>
+</div>
