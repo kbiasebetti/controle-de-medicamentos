@@ -1,0 +1,49 @@
+@{
+    ViewBag.Titulo = "Edição de Paciente";
+}
+
+@model EditarPacienteViewModel;
+
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-6">
+        <form asp-action="Editar" method="post">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="card-title my-1">Informações do Paciente</h5>
+                </div>
+                <div class="card-body">
+
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="mb-3">
+                        <label asp-for="Nome" class="form-label">Nome Completo</label>
+                        <input class="form-control" asp-for="Nome" placeholder="Ex: Maria Joaquina de Amaral">
+                        <span asp-validation-for="Nome" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Telefone" class="form-label">Telefone</label>
+                        <input class="form-control" asp-for="Telefone" placeholder="Ex: (49) 91234-5678">
+                        <span asp-validation-for="Telefone" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="CartaoSus" class="form-label">Cartão do SUS</label>
+                        <input class="form-control" asp-for="CartaoSus" placeholder="Ex: 700 1234 5678 9012">
+                        <span asp-validation-for="CartaoSus" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Cpf" class="form-label">CPF</label>
+                        <input class="form-control" asp-for="Cpf" placeholder="Ex: 123.456.789-00">
+                        <span asp-validation-for="Cpf" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent text-end">
+                    <a asp-action="Index" class="btn btn-outline-secondary px-4">Voltar</a>
+                    <button type="submit" class="btn btn-primary px-4">Gravar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

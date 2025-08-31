@@ -1,0 +1,47 @@
+@{
+    ViewBag.Titulo = "Visualização de Pacientes";
+}
+
+@model VisualizarPacientesViewModel;
+
+<div class="d-flex justify-content-end mb-4">
+    <a class="btn btn-primary" asp-action="Cadastrar">
+        <i class="bi bi-plus-lg me-2"></i>
+        Cadastrar Novo Paciente
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Telefone</th>
+                    <th scope="col">Cartão do SUS</th>
+                    <th scope="col">CPF</th>
+                    <th scope="col" class="text-end">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DetalhesPacienteViewModel p in Model.Registros)
+                {
+                <tr>
+                    <td>@p.Nome</td>
+                    <td>@p.Telefone</td>
+                    <td>@p.CartaoSus</td>
+                    <td>@p.Cpf</td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-primary" title="Editar" asp-action="Editar" asp-route-id="@p.Id">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a class="btn btn-sm btn-outline-danger" title="Excluir" asp-action="Excluir" asp-route-id="@p.Id">
+                            <i class="bi bi-trash2"></i>
+                        </a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
