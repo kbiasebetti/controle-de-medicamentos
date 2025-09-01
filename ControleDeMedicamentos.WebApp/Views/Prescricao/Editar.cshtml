@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Titulo = "Edição de Prescrição";
+}
+
+@model EditarPrescricaoViewModel;
+
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-6">
+        <form asp-action="Editar" method="post">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="card-title my-1">Informações da Prescrição</h5>
+                </div>
+                <div class="card-body">
+
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="mb-3">
+                        <label asp-for="PacienteId" class="form-label">Paciente</label>
+                        <select class="form-select" asp-for="PacienteId" asp-items="@Model.PacientesDisponiveis">
+                            <option value="">-- Selecione um Paciente --</option>
+                        </select>
+                        <span asp-validation-for="PacienteId" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="CrmMedico" class="form-label">CRM do Médico</label>
+                        <input class="form-control" asp-for="CrmMedico" placeholder="Ex: 123456/SP">
+                        <span asp-validation-for="CrmMedico" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Descricao" class="form-label">Descrição / Observações</label>
+                        <textarea class="form-control" asp-for="Descricao" rows="3" placeholder="Ex: Tomar 1 comprimido a cada 8 horas."></textarea>
+                        <span asp-validation-for="Descricao" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="DataValidade" class="form-label">Data de Validade</label>
+                        <input class="form-control" asp-for="DataValidade" type="date">
+                        <span asp-validation-for="DataValidade" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent text-end">
+                    <a asp-action="Index" class="btn btn-outline-secondary px-4">Voltar</a>
+                    <button type="submit" class="btn btn-primary px-4">Editar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Titulo = "Exclusão de Prescrição";
+}
+
+@model ExcluirPrescricaoViewModel;
+
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-danger text-white">
+                <h5 class="card-title my-1">Confirmar Exclusão</h5>
+            </div>
+            <div class="card-body">
+                <p class="fs-5">
+                    Você tem certeza que deseja excluir a prescrição para o paciente <strong>"@Model.Paciente"</strong>?
+                </p>
+                <p class="text-muted">
+                    Esta ação não poderá ser desfeita.
+                </p>
+                <form asp-action="Excluir" method="post">
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="card-footer bg-transparent text-end">
+                        <a asp-action="Index" class="btn btn-outline-secondary px-4">Voltar</a>
+                        <button class="btn btn-danger px-4">Confirmar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

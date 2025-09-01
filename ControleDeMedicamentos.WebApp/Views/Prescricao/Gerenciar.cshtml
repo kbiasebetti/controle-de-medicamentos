@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Titulo = "Gestão de Prescrição";
+}
+
+@model GerenciarPrescricaoViewModel;
+
+<div class="d-flex flex-column gap-4">
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="card-title my-1">Informações da Prescrição</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Paciente" class="form-label">Paciente</label>
+                    <input class="form-control" asp-for="Paciente" readonly disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="CrmMedico" class="form-label">CRM do Médico</label>
+                    <input class="form-control" asp-for="CrmMedico" readonly disabled>
+                </div>
+                <div class="col-12">
+                    <label asp-for="Descricao" class="form-label">Descrição / Observações</label>
+                    <textarea class="form-control" asp-for="Descricao" readonly disabled rows="2"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="card-title my-1">Adicionar Medicamento à Prescrição</h5>
+        </div>
+        <form asp-action="AdicionarMedicamentoPrescrito" asp-route-idPrescricao="@Model.Id" method="post">
+            <div class="card-body">
+                <div class="row g-3 align-items-end">
+                    <div class="col-lg-6">
+                        <label for="MedicamentoId" class="form-label">Medicamento</label>
+                        <select name="MedicamentoId" asp-items="@Model.MedicamentosDisponiveis" class="form-select">
+                            <option value="">-- Selecione um Medicamento --</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <label for="DosagemMedicamento" class="form-label">Dosagem</label>
+                        <input name="DosagemMedicamento" type="text" class="form-control" placeholder="Ex: 500mg" />
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <label for="QuantidadeMedicamento" class="form-label">Quantidade</label>
+                        <input name="QuantidadeMedicamento" type="number" class="form-control" value="1" min="1" />
+                    </div>
+                    <div class="col-12">
+                        <label for="PeriodoMedicamento" class="form-label">Período de Uso / Instruções</label>
+                        <input name="PeriodoMedicamento" type="text" class="form-control" placeholder="Ex: 1 comprimido a cada 8 horas por 7 dias" />
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent text-end">
+                <button class="btn btn-primary px-4" type="submit">Adicionar</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="card-title my-1">Medicamentos Prescritos</h5>
+        </div>
+        <div class="card-body">
+            @if (!Model.MedicamentosPrescritos.Any())
+            {
+                <p class="text-muted">Ainda não há nenhum medicamento relacionado a esta prescrição.</p>
+            }
+            else
+            {
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Medicamento</th>
+                            <th>Dosagem</th>
+                            <th>Instruções</th>
+                            <th class="text-center">Quantidade</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DetalhesMedicamentoPrescritoViewModel mp in Model.MedicamentosPrescritos)
+                        {
+                            <tr>
+                                <td class="align-middle">@mp.Medicamento</td>
+                                <td class="align-middle">@mp.Dosagem</td>
+                                <td class="align-middle">@mp.Periodo</td>
+                                <td class="align-middle text-center">@mp.Quantidade</td>
+                                <td class="text-end">
+                                    <form asp-action="RemoverMedicamentoPrescrito"
+                                          asp-route-idPrescricao="@Model.Id"
+                                          asp-route-idMedicamentoPrescrito="@mp.Id"
+                                          method="post">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Remover">
+                                            <i class="bi bi-trash2"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-2">
+        <a asp-action="Index" class="btn btn-outline-secondary px-5">Voltar</a>
+    </div>
+</div>

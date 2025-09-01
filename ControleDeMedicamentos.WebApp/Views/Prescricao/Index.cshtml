@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Titulo = "Visualização de Prescrições";
+}
+
+@model VisualizarPrescricoesViewModel;
+
+<div class="d-flex justify-content-end mb-4">
+    <a class="btn btn-primary" asp-action="Cadastrar">
+        <i class="bi bi-plus-lg me-2"></i>
+        Cadastrar Nova Prescrição
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Paciente</th>
+                    <th scope="col">CRM do Médico</th>
+                    <th scope="col">Data de Emissão</th>
+                    <th scope="col">Data de Validade</th>
+                    <th scope="col" class="text-end">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DetalhesPrescricaoViewModel p in Model.Registros)
+                {
+                    <tr>
+                        <td>@p.Paciente</td>
+                        <td>@p.CrmMedico</td>
+                        <td>@p.DataEmissao.ToShortDateString()</td>
+                        <td>@p.DataValidade.ToShortDateString()</td>
+                        <td class="text-end">
+                            <a class="btn btn-sm btn-outline-secondary" title="Gerenciar Itens" asp-action="Gerenciar" asp-route-id="@p.Id">
+                                <i class="bi bi-clipboard-plus"></i>
+                            </a>
+                            <a class="btn btn-sm btn-outline-primary" title="Editar" asp-action="Editar" asp-route-id="@p.Id">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a class="btn btn-sm btn-outline-danger" title="Excluir" asp-action="Excluir" asp-route-id="@p.Id">
+                                <i class="bi bi-trash2"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
