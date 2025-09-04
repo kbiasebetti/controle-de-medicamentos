@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Titulo = "Visualização de Requisições de Medicamento";
+}
+
+@model VisualizarRequisicoesMedicamentoViewModel;
+
+<div class="d-flex justify-content-end mb-4">
+    <a class="btn btn-primary" asp-action="CadastrarRequisicaoEntrada">
+        <i class="bi bi-plus-lg me-2"></i>
+        Nova Requisição de Entrada
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h5 class="card-title my-1">Histórico de Requisições de Entrada</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Medicamento</th>
+                    <th class="text-center">Quantidade</th>
+                    <th>Funcionário Responsável</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.RequisicoesEntrada.Any())
+                {
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">Nenhuma requisição de entrada registrada.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (DetalhesRequisicaoEntradaViewModel r in Model.RequisicoesEntrada)
+                    {
+                        <tr>
+                            <td class="align-middle">@r.DataOcorrencia.ToShortDateString()</td>
+                            <td class="align-middle">@r.Medicamento</td>
+                            <td class="align-middle text-center">@r.QuantidadeRequisitada</td>
+                            <td class="align-middle">@r.Funcionario</td>
+                            <td class="text-end">
+                                <a class="btn btn-sm btn-outline-secondary" title="Ver Detalhes"
+                                   asp-action="Detalhes" asp-route-id="@r.Id">
+                                    <i class="bi bi-card-list"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
