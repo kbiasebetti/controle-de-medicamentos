@@ -1,4 +1,5 @@
-﻿using ControleDeMedicamentos.Dominio.ModuloPrescricao;
+﻿using ControleDeMedicamentos.Dominio.ModuloMedicamento;
+using ControleDeMedicamentos.Dominio.ModuloPrescricao;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.Compartilhado;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloMedicamento;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPaciente;
@@ -6,24 +7,23 @@ using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPrescricao;
 using ControleDeMedicamentos.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Linq;
 
 namespace ControleDeMedicamentos.WebApp.Controllers;
 
 public class PrescricaoController : Controller
 {
-    private readonly ContextoDados contexto;
     private readonly RepositorioPrescricaoEmArquivo repositorioPrescricao;
     private readonly RepositorioMedicamentoEmArquivo repositorioMedicamento;
     private readonly RepositorioPacienteEmArquivo repositorioPaciente;
 
     public PrescricaoController(
-        ContextoDados contexto,
         RepositorioPrescricaoEmArquivo repositorioPrescricao,
         RepositorioMedicamentoEmArquivo repositorioMedicamento,
         RepositorioPacienteEmArquivo repositorioPaciente
     )
     {
-        this.contexto = contexto;
         this.repositorioPrescricao = repositorioPrescricao;
         this.repositorioMedicamento = repositorioMedicamento;
         this.repositorioPaciente = repositorioPaciente;
@@ -53,7 +53,6 @@ public class PrescricaoController : Controller
             var pacientes = repositorioPaciente.SelecionarRegistros();
             cadastrarVm.PacientesDisponiveis = pacientes
                 .Select(p => new SelectListItem(p.Nome, p.Id.ToString())).ToList();
-
             return View(cadastrarVm);
         }
 
@@ -67,7 +66,6 @@ public class PrescricaoController : Controller
         );
 
         repositorioPrescricao.CadastrarRegistro(entidade);
-
         TempData["MensagemSucesso"] = "Prescrição cadastrada com sucesso!";
         return RedirectToAction(nameof(Index));
     }
@@ -76,13 +74,11 @@ public class PrescricaoController : Controller
     public IActionResult Editar(Guid id)
     {
         var prescricao = repositorioPrescricao.SelecionarRegistroPorId(id);
-
         if (prescricao == null)
             return NotFound();
 
         var pacientes = repositorioPaciente.SelecionarRegistros();
         var editarVm = new EditarPrescricaoViewModel(prescricao, pacientes);
-
         return View(editarVm);
     }
 
@@ -94,22 +90,22 @@ public class PrescricaoController : Controller
             var pacientes = repositorioPaciente.SelecionarRegistros();
             editarVm.PacientesDisponiveis = pacientes
                 .Select(p => new SelectListItem(p.Nome, p.Id.ToString())).ToList();
-
             return View(editarVm);
         }
 
+        var prescricao = repositorioPrescricao.SelecionarRegistroPorId(editarVm.Id);
+        if (prescricao == null)
+            return NotFound();
+
         var pacienteSelecionado = repositorioPaciente.SelecionarRegistroPorId(editarVm.PacienteId);
 
-        var prescricaoEditada = new Prescricao(
-            editarVm.Descricao,
-            editarVm.DataValidade,
-            editarVm.CrmMedico,
-            pacienteSelecionado
-        );
+        prescricao.Descricao = editarVm.Descricao;
+        prescricao.DataValidade = editarVm.DataValidade;
+        prescricao.CrmMedico = editarVm.CrmMedico;
+        prescricao.Paciente = pacienteSelecionado;
 
-        repositorioPrescricao.EditarRegistro(editarVm.Id, prescricaoEditada);
-
-        TempData["MensagemSucesso"] = "Prescricao editada com sucesso!";
+        repositorioPrescricao.EditarRegistro(prescricao.Id, prescricao);
+        TempData["MensagemSucesso"] = "Prescrição editada com sucesso!";
         return RedirectToAction(nameof(Index));
     }
 
@@ -117,7 +113,6 @@ public class PrescricaoController : Controller
     public IActionResult Excluir(Guid id)
     {
         var prescricao = repositorioPrescricao.SelecionarRegistroPorId(id);
-
         if (prescricao == null)
             return NotFound();
 
@@ -125,7 +120,6 @@ public class PrescricaoController : Controller
             prescricao.Id,
             prescricao.Paciente.Nome
         );
-
         return View(viewModel);
     }
 
@@ -133,64 +127,57 @@ public class PrescricaoController : Controller
     public IActionResult Excluir(ExcluirPrescricaoViewModel excluirVm)
     {
         var prescricao = repositorioPrescricao.SelecionarRegistroPorId(excluirVm.Id);
-
         if (prescricao != null)
         {
             repositorioPrescricao.ExcluirRegistro(excluirVm.Id);
             TempData["MensagemSucesso"] = "Prescrição excluída com sucesso!";
         }
-
         return RedirectToAction(nameof(Index));
     }
 
     [HttpGet]
     public IActionResult Gerenciar(Guid id)
     {
-        var medicamentosDisponiveis = repositorioMedicamento.SelecionarRegistros();
+        var prescricao = repositorioPrescricao.SelecionarRegistroPorId(id);
+        if (prescricao == null)
+            return NotFound();
 
-        var prescricaoSelecionada = repositorioPrescricao.SelecionarRegistroPorId(id);
+        var todosOsMedicamentos = repositorioMedicamento.SelecionarRegistros();
+        var viewModel = new GerenciarPrescricaoViewModel(prescricao, todosOsMedicamentos);
 
-        var gerenciarVm = new GerenciarPrescricaoViewModel(
-            id,
-            prescricaoSelecionada.Descricao,
-            prescricaoSelecionada.CrmMedico,
-            prescricaoSelecionada.Paciente.Id,
-            prescricaoSelecionada.Paciente.Nome,
-            prescricaoSelecionada.MedicamentosPrescritos,
-            medicamentosDisponiveis
-        );
-
-        return View(gerenciarVm);
+        return View(viewModel);
     }
 
     [HttpPost]
-    public IActionResult AdicionarMedicamentoPrescrito(Guid idPrescricao, AdicionarMedicamentoPrescritoViewModel adicionarMedicamentoVm)
+    public IActionResult AdicionarMedicamentoPrescrito(AdicionarMedicamentoPrescritoViewModel viewModel)
     {
-        var prescricaoSelecionada = repositorioPrescricao.SelecionarRegistroPorId(idPrescricao);
+        var prescricao = repositorioPrescricao.SelecionarRegistroPorId(viewModel.PrescricaoId);
+        var medicamento = repositorioMedicamento.SelecionarRegistroPorId(viewModel.MedicamentoId);
 
-        var medicamentoSelecionado = repositorioMedicamento.SelecionarRegistroPorId(adicionarMedicamentoVm.MedicamentoId);
+        if (prescricao != null && medicamento != null)
+        {
+            prescricao.AdicionarMedicamentoPrescrito(
+                medicamento,
+                viewModel.Dosagem,
+                viewModel.Periodo,
+                viewModel.Quantidade
+            );
 
-        prescricaoSelecionada.AdicionarMedicamentoPrescrito(
-            medicamentoSelecionado,
-            adicionarMedicamentoVm.DosagemMedicamento,
-            adicionarMedicamentoVm.PeriodoMedicamento,
-            adicionarMedicamentoVm.QuantidadeMedicamento
-        );
+            repositorioPrescricao.EditarRegistro(prescricao.Id, prescricao);
+        }
 
-        contexto.Salvar();
-
-        return RedirectToAction(nameof(Gerenciar), new { id = idPrescricao });
+        return RedirectToAction("Gerenciar", new { id = viewModel.PrescricaoId });
     }
 
     [HttpPost]
     public IActionResult RemoverMedicamentoPrescrito(Guid idPrescricao, Guid idMedicamentoPrescrito)
     {
-        var prescricaoSelecionada = repositorioPrescricao.SelecionarRegistroPorId(idPrescricao);
-
-        prescricaoSelecionada.RemoverMedicamentoPrescrito(idMedicamentoPrescrito);
-
-        contexto.Salvar();
-
-        return RedirectToAction(nameof(Gerenciar), new { id = idPrescricao });
+        var prescricao = repositorioPrescricao.SelecionarRegistroPorId(idPrescricao);
+        if (prescricao != null)
+        {
+            prescricao.RemoverMedicamentoPrescrito(idMedicamentoPrescrito);
+            repositorioPrescricao.EditarRegistro(prescricao.Id, prescricao);
+        }
+        return RedirectToAction("Gerenciar", new { id = idPrescricao });
     }
 }
