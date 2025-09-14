@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Titulo = "Requisição de Saída - Etapa 2 de 3";
+}
+@model SegundaEtapaCadastrarRequisicaoSaidaViewModel
+
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-xl-8">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">
+                <h5 class="card-title my-1">Dados da Requisição</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6"><p class="mb-0"><strong>Paciente:</strong> @Model.Paciente</p></div>
+                    <div class="col-md-6"><p class="mb-0"><strong>Funcionário:</strong> @Model.Funcionario</p></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5 class="card-title my-1">Selecione a Prescrição</h5>
+            </div>
+            <div class="card-body">
+                @if (!Model.PrescricoesDoPaciente.Any())
+                {
+                    <p class="text-muted">Nenhuma prescrição encontrada para este paciente.</p>
+                }
+                else
+                {
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Data de Emissão</th>
+                                <th>Data de Validade</th>
+                                <th>Descrição</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var p in Model.PrescricoesDoPaciente)
+                            {
+                                <tr>
+                                    <td class="align-middle">@p.DataEmissao.ToShortDateString()</td>
+                                    <td class="align-middle">@p.DataValidade.ToShortDateString()</td>
+                                    <td class="align-middle">@p.Descricao</td>
+                                    <td class="text-end">
+                                        <form asp-action="SegundaEtapaCadastrarRequisicaoSaida" method="post">
+                                            <input type="hidden" asp-for="FuncionarioId" />
+                                            <input type="hidden" asp-for="Paciente" />
+                                            <input type="hidden" name="PrescricaoId" value="@p.Id" />
+                                            <button type="submit" class="btn btn-sm btn-primary">Selecionar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+            <div class="card-footer bg-transparent text-end">
+                <a asp-action="Index" class="btn btn-outline-secondary px-4">Cancelar</a>
+            </div>
+        </div>
+    </div>
+</div>

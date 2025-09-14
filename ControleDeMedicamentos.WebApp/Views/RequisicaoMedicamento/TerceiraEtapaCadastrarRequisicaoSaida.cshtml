@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Titulo = "Requisição de Saída - Etapa 3 de 3";
+}
+@model TerceiraEtapaCadastrarRequisicaoSaidaViewModel
+
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-xl-8">
+        <form asp-action="TerceiraEtapaCadastrarRequisicaoSaida" method="post">
+            <input type="hidden" asp-for="FuncionarioId" />
+            <input type="hidden" asp-for="Paciente" />
+            <input type="hidden" asp-for="PrescricaoId" />
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">
+                    <h5 class="card-title my-1">Resumo da Requisição</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4"><p class="mb-0"><strong>Paciente:</strong> @Model.Paciente</p></div>
+                        <div class="col-md-4"><p class="mb-0"><strong>Funcionário:</strong> @Model.Funcionario</p></div>
+                        <div class="col-md-4"><p class="mb-0"><strong>Prescrição:</strong> @Model.PrescricaoId</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="card-title my-1">Medicamentos a serem Retirados</h5>
+                </div>
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Medicamento</th>
+                                <th class="text-center">Disponível</th>
+                                <th style="width: 150px;">Qtd. Saída</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.MedicamentosPrescritos.Count; i++)
+                            {
+                                <tr>
+                                    <td class="align-middle">
+                                        <input type="hidden" asp-for="MedicamentosPrescritos[i].MedicamentoId" />
+                                        <input type="hidden" asp-for="MedicamentosPrescritos[i].Medicamento" />
+                                        <input type="hidden" asp-for="MedicamentosPrescritos[i].Quantidade" />
+                                        @Model.MedicamentosPrescritos[i].Medicamento
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <span class="badge bg-secondary">@Model.MedicamentosPrescritos[i].Quantidade</span>
+                                    </td>
+                                    <td>
+                                        <input type="number" asp-for="MedicamentosPrescritos[i].Quantidade" class="form-control" min="0" max="@Model.MedicamentosPrescritos[i].Quantidade" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer bg-transparent text-end">
+                    <a asp-action="Index" class="btn btn-outline-secondary px-4">Cancelar</a>
+                    <button type="submit" class="btn btn-primary px-4">Cadastrar Requisição</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

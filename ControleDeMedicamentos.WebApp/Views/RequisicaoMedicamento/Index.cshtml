@@ -1,57 +1,111 @@
 ﻿@{
-    ViewBag.Titulo = "Visualização de Requisições de Medicamento";
+    ViewBag.Titulo = "Gestão de Estoque e Requisições";
 }
 
-@model VisualizarRequisicoesMedicamentoViewModel;
+@model VisualizarRequisicoesMedicamentoViewModel
 
-<div class="d-flex justify-content-end mb-4">
+<div class="d-flex gap-2 justify-content-end mb-4">
     <a class="btn btn-primary" asp-action="CadastrarRequisicaoEntrada">
-        <i class="bi bi-plus-lg me-2"></i>
-        Nova Requisição de Entrada
+        <i class="bi bi-arrow-down-circle me-2"></i>
+        Registrar Entrada
+    </a>
+    <a class="btn btn-primary" asp-action="PrimeiraEtapaCadastrarRequisicaoSaida">
+        <i class="bi bi-arrow-up-circle me-2"></i>
+        Registrar Saída
     </a>
 </div>
 
-<div class="card shadow-sm">
-    <div class="card-header">
-        <h5 class="card-title my-1">Histórico de Requisições de Entrada</h5>
-    </div>
-    <div class="card-body">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Medicamento</th>
-                    <th class="text-center">Quantidade</th>
-                    <th>Funcionário Responsável</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (!Model.RequisicoesEntrada.Any())
-                {
-                    <tr>
-                        <td colspan="5" class="text-center text-muted">Nenhuma requisição de entrada registrada.</td>
-                    </tr>
-                }
-                else
-                {
-                    @foreach (DetalhesRequisicaoEntradaViewModel r in Model.RequisicoesEntrada)
-                    {
+<div class="row g-4">
+    <div class="col-lg-12">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5 class="card-title my-1">Entradas de Medicamentos</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
                         <tr>
-                            <td class="align-middle">@r.DataOcorrencia.ToShortDateString()</td>
-                            <td class="align-middle">@r.Medicamento</td>
-                            <td class="align-middle text-center">@r.QuantidadeRequisitada</td>
-                            <td class="align-middle">@r.Funcionario</td>
-                            <td class="text-end">
-                                <a class="btn btn-sm btn-outline-secondary" title="Ver Detalhes"
-                                   asp-action="Detalhes" asp-route-id="@r.Id">
-                                    <i class="bi bi-card-list"></i>
-                                </a>
-                            </td>
+                            <th>Data da Entrada</th>
+                            <th>Medicamento</th>
+                            <th class="text-center">Quantidade</th>
+                            <th>Funcionário</th>
+                            <th></th>
                         </tr>
-                    }
-                }
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                        @if (!Model.RequisicoesEntrada.Any())
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">Nenhuma entrada de medicamento registrada.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var r in Model.RequisicoesEntrada)
+                            {
+                                <tr>
+                                    <td class="align-middle">@r.DataOcorrencia.ToShortDateString()</td>
+                                    <td class="align-middle">@r.Medicamento</td>
+                                    <td class="align-middle text-center">@r.QuantidadeRequisitada</td>
+                                    <td class="align-middle">@r.Funcionario</td>
+                                    <td class="text-end">
+                                        <a class="btn btn-sm btn-outline-secondary" title="Visualizar Detalhes"
+                                           asp-action="DetalhesRequisicaoEntrada" asp-route-id="@r.Id">
+                                            <i class="bi bi-card-list"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5 class="card-title my-1">Saídas de Medicamentos</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Data da Saída</th>
+                            <th>Paciente</th>
+                            <th class="text-center">Total de Itens</th>
+                            <th>Funcionário</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!Model.RequisicoesSaida.Any())
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">Nenhuma saída de medicamento registrada.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var r in Model.RequisicoesSaida)
+                            {
+                                <tr>
+                                    <td class="align-middle">@r.DataOcorrencia.ToShortDateString()</td>
+                                    <td class="align-middle">@r.Paciente</td>
+                                    <td class="align-middle">@r.Funcionario</td>
+                                    <td class="text-end">
+                                        <a class="btn btn-sm btn-outline-secondary" title="Visualizar Detalhes"
+                                           asp-action="DetalhesRequisicaoSaida" asp-route-id="@r.Id">
+                                            <i class="bi bi-card-list"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

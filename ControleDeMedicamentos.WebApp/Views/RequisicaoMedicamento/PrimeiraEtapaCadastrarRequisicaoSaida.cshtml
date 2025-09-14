@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Titulo = "Requisição de Saída - Etapa 1 de 3";
+}
+@model PrimeiraEtapaCadastrarRequisicaoSaidaViewModel
+
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-6">
+        <form asp-action="PrimeiraEtapaCadastrarRequisicaoSaida" method="post">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="card-title my-1">Identificação</h5>
+                </div>
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <div class="mb-3">
+                        <label asp-for="CpfPaciente" class="form-label">CPF do Paciente</label>
+                        <input class="form-control" asp-for="CpfPaciente" placeholder="Digite o CPF para buscar o paciente">
+                        <span asp-validation-for="CpfPaciente" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="FuncionarioId" class="form-label">Funcionário Responsável</label>
+                        <select class="form-select" asp-for="FuncionarioId" asp-items="@Model.FuncionariosDisponiveis">
+                            <option value="">-- Selecione um Funcionário --</option>
+                        </select>
+                        <span asp-validation-for="FuncionarioId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent text-end">
+                    <a asp-action="Index" class="btn btn-outline-secondary px-4">Cancelar</a>
+                    <button type="submit" class="btn btn-primary px-4">Visualizar Prescrições</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

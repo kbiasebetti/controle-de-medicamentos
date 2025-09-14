@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Titulo = "Detalhes da Requisição de Entrada";
+}
+
+@model DetalhesRequisicaoEntradaViewModel
+
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-6">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5 class="card-title my-1">@ViewBag.Titulo</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">ID da Requisição</label>
+                    <input class="form-control" value="@Model.Id" readonly disabled />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Data da Ocorrência</label>
+                    <input class="form-control" value="@Model.DataOcorrencia.ToString("dd/MM/yyyy HH:mm")" readonly disabled />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Medicamento</label>
+                    <input class="form-control" value="@Model.Medicamento" readonly disabled />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Quantidade Requisitada</label>
+                    <input class="form-control" value="@Model.QuantidadeRequisitada" readonly disabled />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Funcionário Responsável</label>
+                    <input class="form-control" value="@Model.Funcionario" readonly disabled />
+                </div>
+            </div>
+            <div class="card-footer bg-transparent text-end">
+                <a asp-action="Index" class="btn btn-outline-secondary px-5">Voltar</a>
+            </div>
+        </div>
+    </div>
+</div>

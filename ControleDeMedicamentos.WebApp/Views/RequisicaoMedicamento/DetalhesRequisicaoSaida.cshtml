@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Titulo = "Detalhes da Requisição de Saída";
+}
+
+@model DetalhesRequisicaoSaidaViewModel
+
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-xl-8">
+        <div class="d-flex flex-column gap-4">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="card-title my-1">Dados Gerais da Requisição</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">ID da Requisição</label>
+                            <input class="form-control" value="@Model.Id" readonly disabled />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Data da Ocorrência</label>
+                            <input class="form-control" value="@Model.DataOcorrencia.ToString("dd/MM/yyyy HH:mm")" readonly disabled />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Paciente</label>
+                            <input class="form-control" value="@Model.Paciente" readonly disabled />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Funcionário Responsável</label>
+                            <input class="form-control" value="@Model.Funcionario" readonly disabled />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Descrição da Prescrição</label>
+                            <textarea class="form-control" readonly disabled rows="2">@Model.PrescricaoDescricao</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="card-title my-1">Medicamentos Dispensados</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nome do Medicamento</th>
+                                <th class="text-center">Quantidade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var m in Model.Medicamentos)
+                            {
+                                <tr>
+                                    <td class="align-middle">@m.Medicamento</td>
+                                    <td class="align-middle text-center">@m.Quantidade</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <a asp-action="Index" class="btn btn-outline-secondary px-5">Voltar</a>
+            </div>
+        </div>
+    </div>
+</div>
